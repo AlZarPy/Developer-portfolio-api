@@ -10,9 +10,31 @@ services:
         value: production
       - key: AUTO_CREATE_TABLES
         value: "false"
+      - key: RUN_MIGRATIONS_ON_STARTUP
+        value: "false"
       - key: AI_PROVIDER
         value: gemini
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash-lite
+      - key: EMAIL_ENABLED
+        value: "true"
+      - key: EMAIL_FROM
+        value: Developer Portfolio <onboarding@resend.dev>
       - key: CONTACT_RATE_LIMIT
         value: 5/minute
+      - key: LOG_LEVEL
+        value: INFO
       - key: LOG_FILE
         value: logs/app.log
+      - key: DATABASE_URL
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: OWNER_EMAIL
+        sync: false
+      - key: PUBLIC_BASE_URL
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false

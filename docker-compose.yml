@@ -4,11 +4,32 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - .env
+      - .env.example
+    environment:
+      APP_ENV: local
+      DATABASE_URL: postgresql+asyncpg://portfolio:portfolio@postgres:5432/portfolio
+      AUTO_CREATE_TABLES: "false"
+      RUN_MIGRATIONS_ON_STARTUP: "true"
+      AI_PROVIDER: mock
+      EMAIL_ENABLED: "false"
+      CORS_ORIGINS: http://localhost:8000
+      PUBLIC_BASE_URL: http://localhost:8000
     volumes:
       - ./logs:/app/logs
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=2).read()",
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 5
 
   postgres:
     image: postgres:17-alpine
@@ -16,10 +37,13 @@ services:
       POSTGRES_DB: portfolio
       POSTGRES_USER: portfolio
       POSTGRES_PASSWORD: portfolio
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U portfolio -d portfolio"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
 
 volumes:
   postgres_data:

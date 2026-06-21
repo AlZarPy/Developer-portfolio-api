@@ -30,3 +30,6 @@ def configure_logging(settings: Settings) -> None:
     )
     file_handler.setFormatter(formatter)
     root_logger.addHandler(file_handler)
+
+    logging.getLogger("httpx").setLevel(logging.WARNING)
+    logging.getLogger("httpcore").setLevel(logging.WARNING)

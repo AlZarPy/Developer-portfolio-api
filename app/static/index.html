@@ -1,18 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Aleksandr Zaretsky | Backend Developer</title>
+    <title>Александр Зарецкий | Backend Developer</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
     <header class="topbar">
       <a class="brand" href="#top">AZ</a>
-      <nav aria-label="Primary navigation">
-        <a href="#projects">Projects</a>
-        <a href="#flow">Flow</a>
-        <a href="#contact">Contact</a>
+      <nav aria-label="Основная навигация">
+        <a href="#projects">Проекты</a>
+        <a href="#flow">Процесс</a>
+        <a href="#contact">Контакт</a>
         <a href="/docs">Swagger</a>
       </nav>
     </header>
@@ -21,25 +21,25 @@
       <section class="hero">
         <div class="hero-copy">
           <p class="eyebrow">Backend / Full-stack Developer</p>
-          <h1>Aleksandr Zaretsky</h1>
+          <h1>Александр Зарецкий</h1>
           <p class="summary">
-            FastAPI, PostgreSQL, React, Docker, and practical AI integrations for business
-            services that need clear architecture and reliable delivery.
+            Python Backend / Fullstack Developer в Тбилиси. Проектирую и запускаю коммерческие
+            backend-сервисы, интеграции и automation tools на FastAPI, PostgreSQL и Docker.
           </p>
           <div class="hero-actions">
             <a class="button primary" href="https://github.com/AlZarPy" target="_blank" rel="noreferrer">GitHub</a>
-            <a class="button" href="#contact">Contact</a>
-            <a class="button" href="/cv.txt" download>CV</a>
+            <a class="button" href="#contact">Связаться</a>
+            <a class="button" href="/aleksandr-zaretsky-cv.pdf" download>Скачать CV</a>
           </div>
         </div>
-        <div class="hero-visual" aria-label="Backend workflow visualization">
+        <div class="hero-visual" aria-label="Схема обработки backend-запроса">
           <div class="terminal">
             <div class="terminal-bar"><span></span><span></span><span></span></div>
             <pre><code>POST /api/contact
 validation: ok
 ai.category: project_request
 db.leads: stored
-email.owner: queued
+email.owner: sent
 response: 201 Created</code></pre>
           </div>
         </div>
@@ -47,19 +47,20 @@ response: 201 Created</code></pre>
 
       <section class="section about">
         <div>
-          <p class="section-label">About</p>
-          <h2>Backend-first engineering with product context</h2>
+          <p class="section-label">О себе</p>
+          <h2>Backend-first подход с пониманием продукта</h2>
         </div>
         <p>
-          I build API-driven services, integrations, and internal platforms with attention to
-          maintainability, deployment, and real operational constraints. This site is also a live
-          backend demo: form requests are validated, classified, stored, logged, and routed through
-          an email workflow.
+          Перевожу бизнес-требования в работающие продукты: архитектура, backend, админские
+          сценарии, интеграции, деплой и поддержка. Использую AI-assisted workflows для ускорения
+          разработки и анализа задач. Этот сайт одновременно работает как backend-демо: обращения
+          валидируются, классифицируются AI, сохраняются в БД, логируются и отправляются через
+          email workflow.
         </p>
       </section>
 
       <section class="section tech">
-        <p class="section-label">Stack</p>
+        <p class="section-label">Технологии в работе</p>
         <div class="tech-grid">
           <span>Python</span>
           <span>FastAPI</span>
@@ -73,58 +74,66 @@ response: 201 Created</code></pre>
       </section>
 
       <section class="section projects" id="projects">
-        <p class="section-label">Projects</p>
+        <p class="section-label">Проекты</p>
         <div class="project-grid">
           <article>
-            <h3>Sigma Profi</h3>
-            <p>Security platform with 198 API endpoints, 159 schemas, and 30+ models.</p>
+            <h3>ALFATEAM</h3>
+            <p>3 коммерческих продукта end-to-end: архитектура, backend, админки, интеграции, деплой и поддержка.</p>
           </article>
           <article>
-            <h3>Ne Filkina Gramota</h3>
-            <p>E-commerce backend with DaData, CDEK, YooKassa, and order workflows.</p>
+            <h3>Security Platform</h3>
+            <p>Платформа для клиентов, телохранителей, заказов, чатов и расписаний: 198 endpoints, 159 schemas, 30+ ORM models.</p>
           </article>
           <article>
-            <h3>EAEU Events</h3>
-            <p>Event management, access codes, media content, and participant flows.</p>
+            <h3>Automation</h3>
+            <p>Telegram bot workflows, парсеры, Windows utilities и автоматизация отчетов с сокращением ручной работы.</p>
           </article>
         </div>
       </section>
 
       <section class="section flow" id="flow">
-        <p class="section-label">How this project works</p>
+        <p class="section-label">Как работает проект</p>
         <ol>
-          <li>Validation</li>
-          <li>AI Classification</li>
-          <li>Database Storage</li>
-          <li>Email Notification</li>
-          <li>API Response</li>
+          <li>Валидация</li>
+          <li>AI-классификация</li>
+          <li>Запись в БД</li>
+          <li>Email-уведомление</li>
+          <li>API-ответ</li>
         </ol>
       </section>
 
       <section class="section contact" id="contact">
         <div>
-          <p class="section-label">Contact</p>
-          <h2>Send a request</h2>
+          <p class="section-label">Контакт</p>
+          <h2>Отправить обращение</h2>
         </div>
         <form id="contact-form" novalidate>
           <label>
-            Name
+            Имя
             <input name="name" autocomplete="name" required minlength="2" />
+            <span class="field-error" data-error-for="name"></span>
           </label>
           <label>
             Email
-            <input name="email" type="email" autocomplete="email" required />
+            <input name="email" type="email" autocomplete="email" />
+            <span class="field-error" data-error-for="email"></span>
           </label>
           <label>
-            Phone
-            <input name="phone" autocomplete="tel" />
+            Телефон
+            <input
+              name="phone"
+              autocomplete="tel"
+              inputmode="tel"
+            />
+            <span class="field-error" data-error-for="phone"></span>
           </label>
           <label>
-            Message
+            Сообщение
             <textarea name="message" required minlength="10"></textarea>
+            <span class="field-error" data-error-for="message"></span>
           </label>
           <input name="source" type="hidden" value="website" />
-          <button class="button primary" type="submit">Send message</button>
+          <button class="button primary" type="submit">Отправить</button>
           <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
         </form>
       </section>

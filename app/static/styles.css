@@ -279,9 +279,22 @@ textarea {
   padding: 12px 14px;
 }
 
+input[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+  border-color: var(--warn);
+  outline-color: var(--warn);
+}
+
 textarea {
   min-height: 150px;
   resize: vertical;
+}
+
+.field-error {
+  min-height: 18px;
+  color: var(--warn);
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .form-status {

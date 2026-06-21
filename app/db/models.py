@@ -36,7 +36,7 @@ class Lead(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(120), nullable=False)
-    email: Mapped[str] = mapped_column(String(254), nullable=False, index=True)
+    email: Mapped[str | None] = mapped_column(String(254), nullable=True, index=True)
     phone: Mapped[str | None] = mapped_column(String(40), nullable=True)
     message: Mapped[str] = mapped_column(Text, nullable=False)
     source: Mapped[LeadSource] = mapped_column(Enum(LeadSource), nullable=False)

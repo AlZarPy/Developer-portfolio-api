@@ -4,6 +4,7 @@ from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request, status
+from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -66,7 +67,18 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
 async def request_logging_middleware(request: Request, call_next):
     started_at = time.perf_counter()
-    response = await call_next(request)
+    try:
+        response = await call_next(request)
+    except Exception:
+        duration_ms = (time.perf_counter() - started_at) * 1000
+        logger.info(
+            "request method=%s path=%s status=500 duration_ms=%.2f",
+            request.method,
+            request.url.path,
+            duration_ms,
+        )
+        raise
+
     duration_ms = (time.perf_counter() - started_at) * 1000
     logger.info(
         "request method=%s path=%s status=%s duration_ms=%.2f",
@@ -84,13 +96,14 @@ def register_exception_handlers(app: FastAPI) -> None:
         request: Request,
         exc: RequestValidationError,
     ) -> JSONResponse:
-        logger.info("Validation error on %s: %s", request.url.path, exc.errors())
+        details = jsonable_encoder(exc.errors())
+        logger.info("Validation error on %s: %s", request.url.path, details)
         return JSONResponse(
             status_code=422,
             content={
                 "error": VALIDATION_ERROR.code,
                 "message": VALIDATION_ERROR.message,
-                "details": exc.errors(),
+                "details": details,
             },
         )
 

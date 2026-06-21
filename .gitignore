@@ -27,6 +27,9 @@ data/
 *.sqlite
 *.sqlite3
 
+# Local assignment materials and agent notes
+docs/
+
 # Build artifacts
 build/
 dist/

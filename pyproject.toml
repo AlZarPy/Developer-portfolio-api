@@ -9,12 +9,14 @@ description = "FastAPI developer portfolio API with PostgreSQL, AI classificatio
 readme = "README.md"
 requires-python = ">=3.12,<3.14"
 dependencies = [
+    "aiosqlite>=0.21.0",
     "alembic>=1.16.0",
     "asyncpg>=0.30.0",
     "email-validator>=2.2.0",
     "fastapi>=0.115.0",
     "greenlet>=3.2.0",
     "httpx>=0.28.0",
+    "phonenumbers>=9.0.0",
     "pydantic-settings>=2.9.0",
     "python-dotenv>=1.1.0",
     "slowapi>=0.1.9",
@@ -24,7 +26,6 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "aiosqlite>=0.21.0",
     "pytest>=8.3.0",
     "pytest-asyncio>=0.26.0",
     "ruff>=0.11.0",

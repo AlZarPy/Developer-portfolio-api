@@ -23,7 +23,7 @@ class EmailService:
             subject=f"New portfolio lead: {analysis.category.value}",
             text=(
                 f"Name: {contact.name}\n"
-                f"Email: {contact.email}\n"
+                f"Email: {contact.email or '-'}\n"
                 f"Phone: {contact.phone or '-'}\n"
                 f"Source: {contact.source.value}\n"
                 f"Category: {analysis.category.value}\n"
@@ -31,11 +31,15 @@ class EmailService:
                 f"{contact.message}"
             ),
         )
-        user_sent = await self._send(
-            to=str(contact.email),
-            subject="Спасибо за обращение",
-            text=analysis.reply,
-        )
+
+        user_sent = True
+        if contact.email:
+            user_sent = await self._send(
+                to=str(contact.email),
+                subject="Спасибо за обращение",
+                text=analysis.reply,
+            )
+
         return owner_sent and user_sent
 
     async def _send(self, *, to: str, subject: str, text: str) -> bool:

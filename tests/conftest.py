@@ -1,3 +1,4 @@
+import asyncio
 import os
 from pathlib import Path
 
@@ -12,13 +13,21 @@ os.environ["LOG_FILE"] = "logs/test.log"
 import pytest
 from fastapi.testclient import TestClient
 
+from app.db.database import Base, engine
 from app.main import app
+
+
+async def reset_test_database() -> None:
+    async with engine.begin() as connection:
+        await connection.run_sync(Base.metadata.drop_all)
+        await connection.run_sync(Base.metadata.create_all)
 
 
 @pytest.fixture()
 def client() -> TestClient:
     Path("data").mkdir(exist_ok=True)
     Path("logs").mkdir(exist_ok=True)
+    asyncio.run(reset_test_database())
 
     storage = app.state.limiter._storage
     reset = getattr(storage, "reset", None)

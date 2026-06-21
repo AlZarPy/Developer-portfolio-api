@@ -1,12 +1,17 @@
-Aleksandr Zaretsky
-Backend / Full-stack Developer
+Александр Зарецкий
+Python Backend / Fullstack Developer
+Tbilisi, Georgia
+alexandrv85@gmail.com | github.com/AlZarPy | t.me/AleksandrZaretsky
 
-Focus:
+Фокус:
 - Python, FastAPI, PostgreSQL, SQLAlchemy, Alembic
-- API design, integrations, Docker, CI/CD
-- AI integrations for backend workflows
+- React, TypeScript
+- Docker, Linux, Nginx, Git
+- REST API, JWT, pytest
+- AI-интеграции в backend-процессах
 
-Projects:
-- Sigma Profi: security platform, 198 API endpoints, 159 schemas, 30+ models
-- Ne Filkina Gramota: e-commerce backend with DaData, CDEK, YooKassa
-- EAEU Events: event management, access codes, media content
+Опыт:
+- ALFATEAM: 3 коммерческих продукта end-to-end, архитектура, backend, админки, интеграции, деплой и поддержка
+- Security platform: 4 user roles, 198 API endpoints, 159 schemas, 30+ ORM models
+- PAVEPO: backend services, automation tools, Telegram bot integration
+- MiXBS: автоматизация отчетов с сокращением времени с 4 часов в неделю до 20 минут

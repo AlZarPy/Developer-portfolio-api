@@ -32,20 +32,22 @@ class ContactService:
 
     async def process(self, contact: ContactRequest) -> PublicContactResponse:
         analysis = await self.ai_service.analyze(contact)
-        email_sent = await self.email_service.send_contact_emails(contact, analysis)
-
         lead = await self.repository.create(
             name=contact.name,
-            email=str(contact.email),
+            email=str(contact.email) if contact.email else None,
             phone=contact.phone,
             message=contact.message,
             source=contact.source,
             category=analysis.category,
             sentiment=analysis.sentiment,
             ai_reply=analysis.reply,
-            email_sent=email_sent,
+            email_sent=False,
         )
         logger.info("Lead created: id=%s category=%s", lead.id, analysis.category.value)
+
+        email_sent = await self.email_service.send_contact_emails(contact, analysis)
+        if email_sent:
+            await self.repository.update_email_sent(lead, email_sent=True)
 
         return PublicContactResponse(
             success=True,

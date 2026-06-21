@@ -1,21 +1,22 @@
 # Developer Portfolio API
 
-Backend-oriented portfolio project for Aleksandr Zaretsky. It is both a test assignment solution and a small production-style service that can continue working as a personal landing page and lead collection API.
+Backend-проект портфолио для Александра Зарецкого. Проект сделан как тестовое задание, но рассчитан на дальнейшее использование: лендинг разработчика, API для формы обратной связи, сбор обращений, AI-классификация и email-уведомления.
 
-## Stack
+## Стек
 
-- Python 3.13 target, compatible with local Python 3.12+
+- Python 3.13 как целевая версия, локально совместимо с Python 3.12+
 - FastAPI, Pydantic v2
 - SQLAlchemy 2 async, Alembic
-- PostgreSQL target, SQLite default for local zero-config launch
-- Gemini API with `gemini-2.5-flash-lite`
-- Mock AI fallback
-- Resend email API
+- PostgreSQL для production, SQLite для быстрого локального запуска
+- Neon PostgreSQL
+- Gemini API, модель `gemini-2.5-flash-lite`
+- Mock fallback для AI
+- Resend Email API
 - slowapi rate limiting
 - pytest, ruff
-- Docker, GitHub Actions, Render-ready config
+- Docker, GitHub Actions, Render-ready конфигурация
 
-## Local Launch
+## Локальный запуск
 
 ```bash
 python -m venv .venv
@@ -25,52 +26,52 @@ copy .env.example .env
 uvicorn app.main:app --reload
 ```
 
-Open:
+Открыть:
 
-- Landing page: http://localhost:8000
+- лендинг: http://localhost:8000
 - Swagger: http://localhost:8000/docs
-- Health: http://localhost:8000/api/health
+- health check: http://localhost:8000/api/health
 
-The default `.env.example` uses SQLite and mock AI, so the project starts without external keys. For production-like mode, set PostgreSQL, Gemini, and Resend variables.
+По умолчанию `.env.example` использует SQLite и mock AI, поэтому проект запускается без внешних ключей. Для режима, близкого к production, нужно указать PostgreSQL, Gemini и Resend переменные.
 
-## Environment Variables
+## Переменные окружения
 
-| Variable | Purpose |
+| Переменная | Назначение |
 | --- | --- |
-| `APP_ENV` | `local`, `test`, or `production`. |
-| `DEBUG` | Enables SQLAlchemy echo and debug behavior. |
-| `DATABASE_URL` | Async SQLAlchemy URL. Use Neon PostgreSQL with `postgresql+asyncpg://...`. |
-| `AUTO_CREATE_TABLES` | Creates tables on startup. Useful locally; prefer Alembic in production. |
-| `CORS_ORIGINS` | Comma-separated allowed origins. |
-| `CONTACT_RATE_LIMIT` | slowapi limit, default `5/minute`. |
-| `LOG_FILE` | File log path, default `logs/app.log`. |
-| `AI_PROVIDER` | `mock` or `gemini`. |
-| `GEMINI_API_KEY` | Gemini API key. |
-| `GEMINI_MODEL` | Default `gemini-2.5-flash-lite`. |
-| `RESEND_API_KEY` | Resend API key. |
-| `EMAIL_FROM` | Sender address for Resend. |
-| `OWNER_EMAIL` | Site owner notification address. |
-| `EMAIL_ENABLED` | Can disable email while keeping API working. |
+| `APP_ENV` | Окружение: `local`, `test`, `production`. |
+| `DEBUG` | Включает отладочный режим и SQLAlchemy echo. |
+| `DATABASE_URL` | Async SQLAlchemy URL. Для Neon: `postgresql+asyncpg://...`. |
+| `AUTO_CREATE_TABLES` | Создает таблицы при старте. Удобно локально, в production предпочтительнее Alembic. |
+| `CORS_ORIGINS` | Разрешенные origin через запятую. |
+| `CONTACT_RATE_LIMIT` | Лимит slowapi, по умолчанию `5/minute`. |
+| `LOG_FILE` | Путь к логам, по умолчанию `logs/app.log`. |
+| `AI_PROVIDER` | `mock` или `gemini`. |
+| `GEMINI_API_KEY` | Ключ Gemini API. |
+| `GEMINI_MODEL` | По умолчанию `gemini-2.5-flash-lite`. |
+| `RESEND_API_KEY` | Ключ Resend API. |
+| `EMAIL_FROM` | Отправитель писем в Resend. |
+| `OWNER_EMAIL` | Email владельца сайта для уведомлений. |
+| `EMAIL_ENABLED` | Позволяет отключить email, не ломая API. |
 
-## Architecture
+## Архитектура
 
 ```text
 app/
-├── api/             # FastAPI routers and dependencies
+├── api/             # FastAPI routers и dependencies
 ├── core/            # config, logging, errors, rate limiting
-├── db/              # async SQLAlchemy setup and models
-├── providers/       # Gemini and mock AI providers
-├── repositories/    # data access
-├── schemas/         # Pydantic request/response models
-├── services/        # business workflows
-├── static/          # landing page
+├── db/              # async SQLAlchemy setup и модели
+├── providers/       # Gemini и mock AI providers
+├── repositories/    # слой доступа к данным
+├── schemas/         # Pydantic request/response модели
+├── services/        # бизнес-логика
+├── static/          # лендинг
 └── main.py          # app factory
 ```
 
-The request flow is intentionally explicit:
+Основной поток обработки обращения:
 
 ```text
-Validation -> Rate limit -> AI classification -> Database storage -> Email notification -> API response
+Валидация -> Rate limit -> AI-классификация -> Запись в БД -> Email-уведомление -> API-ответ
 ```
 
 ## API
@@ -83,7 +84,7 @@ curl -X POST http://localhost:8000/api/contact ^
   -d "{\"name\":\"Maria Client\",\"email\":\"maria@example.com\",\"phone\":\"+995 555 11 22 33\",\"message\":\"I need a FastAPI backend for a new project with PostgreSQL.\",\"source\":\"website\"}"
 ```
 
-Response:
+Ответ:
 
 ```json
 {
@@ -95,7 +96,16 @@ Response:
 }
 ```
 
-The landing page displays only a successful send message and the request type. It does not expose the AI reply, sentiment, logs, or internal details.
+На лендинге пользователь видит только сообщение об успешной отправке и тип обращения. Полный AI-ответ, тональность, логи и служебные детали не показываются.
+
+Валидация обращения:
+
+- `name` обязателен;
+- `message` обязателен;
+- нужно указать минимум один способ связи: `email` или `phone`;
+- если указан `email`, он должен быть валидным email-адресом.
+- если указан `phone`, он валидируется и сохраняется в E.164 формате;
+- поддерживаются международные номера (`+995...`, `995...`, `+7...`, `7...`) и российский формат через `8...`.
 
 ### `GET /api/health`
 
@@ -105,74 +115,90 @@ The landing page displays only a successful send message and the request type. I
 
 ### `GET /api/metrics`
 
-Returns total leads and counts by category/source.
+Возвращает общее количество обращений и группировку по категории/источнику.
 
-## AI Integration
+## AI-интеграция
 
-The AI boundary is a provider protocol:
+AI отделен через provider protocol:
 
 ```python
 class AIProvider(Protocol):
     async def analyze(self, contact: ContactRequest) -> AIAnalysis: ...
 ```
 
-`GeminiProvider` calls Gemini and expects strict JSON with:
+`GeminiProvider` вызывает Gemini и ожидает строгий JSON:
 
 - `category`: `job_offer`, `project_request`, `partnership`, `support`, `spam`, `other`
 - `sentiment`: `positive`, `neutral`, `negative`
-- `reply`: short email reply text
+- `reply`: короткий текст ответа для email
 
-If Gemini is unavailable, invalid, or not configured, `AIService` logs the failure and falls back to `MockProvider`. The contact request still gets stored and the API still returns a successful response when the rest of the pipeline works.
+Если Gemini недоступен, вернул некорректный ответ или не настроен, `AIService` логирует ошибку и использует `MockProvider`. Обращение все равно сохраняется, а API продолжает работать.
 
-Prompt summary:
+Краткая суть prompt:
 
 ```text
-Classify a developer portfolio contact form submission.
-Return strict JSON with category, sentiment, and a short polite Russian email reply.
-Use only the allowed category and sentiment values.
+Классифицировать обращение с сайта-портфолио разработчика.
+Вернуть строгий JSON с category, sentiment и коротким вежливым ответом на русском.
+Использовать только разрешенные значения category и sentiment.
 ```
 
 ## Email
 
-Email is sent through Resend:
+Письма отправляются через Resend:
 
-- owner notification with request details and AI metadata;
-- user copy with the generated AI reply.
+- уведомление владельцу сайта с деталями обращения и AI-метаданными;
+- копия пользователю с AI-сгенерированным ответом.
 
-If Resend is not configured or fails, the API logs the problem and stores the lead with `email_sent=false`.
+Текущий локальный вариант использует тестовый sender Resend:
 
-## Data, Logs, and Rate Limiting
+```text
+Developer Portfolio <onboarding@resend.dev>
+```
 
-- Primary table: `leads`
-- Local SQLite file: `data/app.db`
-- Production target: Neon PostgreSQL
-- Logs: `logs/app.log`
-- Rate limiting: slowapi, default `5/minute`
+Для production желательно подключить собственный домен в Resend, прописать DNS-записи и заменить `EMAIL_FROM`, например:
 
-Sample log entry:
+```text
+Aleksandr Zaretsky <hello@example.com>
+```
+
+Обращение сначала сохраняется в БД, затем сервис пытается отправить email-уведомления. Поле `email_sent` показывает, что email workflow завершился успешно. Если Resend не настроен или отправка завершилась ошибкой, API логирует проблему и оставляет `email_sent=false`.
+
+## Данные, логи и rate limiting
+
+- основная таблица: `leads`
+- локальная SQLite БД: `data/app.db`
+- production БД: Neon PostgreSQL
+- логи: `logs/app.log`
+- rate limiting: slowapi, по умолчанию `5/minute`
+
+Текущий rate limit хранится в памяти процесса. Этого достаточно для single-instance демо и Render free tier, но для нескольких инстансов нужен общий storage backend, например Redis. Redis намеренно не добавлен, чтобы не усложнять тестовое задание сверх требований.
+
+Пример записи в логах:
 
 ```text
 2026-06-21 10:30:00 | INFO | app.services.contact_service | Lead created: id=1 category=project_request
 ```
 
-## Database Migrations
+Логи не предназначены для проверяющего и не должны публиковаться.
 
-Run migrations with:
+## Миграции БД
 
 ```bash
 alembic upgrade head
 ```
 
-For quick local startup, `AUTO_CREATE_TABLES=true` creates the schema automatically. For Render/Neon, prefer `AUTO_CREATE_TABLES=false` and run Alembic during deployment or manually before release.
+Для быстрого локального старта можно использовать `AUTO_CREATE_TABLES=true`. Для Render/Neon предпочтительнее `AUTO_CREATE_TABLES=false` и явный запуск Alembic.
 
-## Tests and Linting
+В production миграции должны выполняться до старта приложения: вручную через Render Shell, отдельным one-off job или отдельным шагом деплоя. `render.yaml` не хранит секреты и не запускает миграции автоматически, чтобы не смешивать управление схемой БД со стартом web-процесса.
+
+## Тесты и линтинг
 
 ```bash
 ruff check .
 pytest
 ```
 
-Current minimum coverage from the assignment:
+Минимальный набор тестов из задания:
 
 - `test_contact_success`
 - `test_contact_validation`
@@ -182,54 +208,71 @@ Current minimum coverage from the assignment:
 
 ## Docker
 
+Сборка production-образа:
+
 ```bash
 docker build -t developer-portfolio-api .
 docker run --env-file .env -p 8000:8000 developer-portfolio-api
 ```
 
-With PostgreSQL:
+Локальная проверка полного стека с PostgreSQL:
 
 ```bash
 docker compose up --build
 ```
 
-Set this in `.env` for compose:
+`docker-compose.yml` использует `.env.example`, поднимает отдельный PostgreSQL в Docker-сети, запускает `alembic upgrade head` перед стартом API и отключает реальную email-отправку. Поэтому compose можно запускать без production-секретов.
 
-```text
-DATABASE_URL=postgresql+asyncpg://portfolio:portfolio@postgres:5432/portfolio
+Проверка:
+
+```bash
+curl http://localhost:8000/api/health
 ```
 
-## Deployment
+## Деплой
 
-Target deployment:
+Целевой вариант:
 
-- Backend: Render
-- Database: Neon PostgreSQL
+- backend: Render
+- database: Neon PostgreSQL
 - CI/CD: GitHub Actions
 
-Render should receive environment variables from `.env.example`, with real values for:
+`render.yaml` описывает Docker Web Service и безопасные production defaults. Секреты задаются вручную в Render Dashboard в разделе Environment и не коммитятся в репозиторий:
 
 - `DATABASE_URL`
 - `GEMINI_API_KEY`
 - `RESEND_API_KEY`
 - `OWNER_EMAIL`
 - `PUBLIC_BASE_URL`
+- `CORS_ORIGINS`
 
-## Reviewer Scenario
+`PUBLIC_BASE_URL` и `CORS_ORIGINS` должны указывать на Render URL сервиса, например `https://developer-portfolio-api.onrender.com`. После подключения собственного домена их нужно заменить на домен.
 
-1. Open the landing page.
-2. Submit the contact form.
-3. Confirm the success message and visible request type.
-4. Open `/docs`.
-5. Call `/api/health`.
-6. Call `/api/metrics`.
+Первый production-запуск:
 
-## AI Usage During Development
+1. Создать Web Service в Render из `render.yaml`.
+2. Заполнить переменные окружения в Dashboard.
+3. Выполнить `alembic upgrade head` против той же `DATABASE_URL`.
+4. Запустить deploy и проверить `/api/health`, лендинг и отправку формы.
 
-AI was used to help structure the FastAPI project, draft boilerplate for services/providers/tests, and keep the README aligned with the assignment. The implementation was manually reviewed and adjusted for:
+Миграции не запускаются автоматически при старте Render-сервиса: `RUN_MIGRATIONS_ON_STARTUP=false`. Это осознанный выбор, чтобы управление схемой БД оставалось отдельным production-шагом.
 
-- explicit layered architecture;
-- deterministic mock fallback;
-- readable service boundaries;
-- safe handling of missing AI/email credentials;
-- focused tests and linting.
+## Сценарий проверки
+
+1. Открыть лендинг.
+2. Отправить форму обратной связи.
+3. Увидеть сообщение об успешной отправке и тип обращения.
+4. Открыть `/docs`.
+5. Проверить `/api/health`.
+6. Проверить `/api/metrics`.
+
+## Использование AI при разработке
+
+AI использовался для подготовки структуры FastAPI-проекта, черновиков сервисов, providers, тестов и документации. Реализация была вручную проверена и доработана:
+
+- явная слоистая архитектура;
+- детерминированный mock fallback;
+- читаемые границы сервисов;
+- безопасная обработка отсутствующих AI/email credentials;
+- защита от утечки ключей в логи;
+- сфокусированные тесты и линтинг.

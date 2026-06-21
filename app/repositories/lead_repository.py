@@ -12,7 +12,7 @@ class LeadRepository:
         self,
         *,
         name: str,
-        email: str,
+        email: str | None,
         phone: str | None,
         message: str,
         source: LeadSource,
@@ -33,6 +33,12 @@ class LeadRepository:
             email_sent=email_sent,
         )
         self.session.add(lead)
+        await self.session.commit()
+        await self.session.refresh(lead)
+        return lead
+
+    async def update_email_sent(self, lead: Lead, email_sent: bool) -> Lead:
+        lead.email_sent = email_sent
         await self.session.commit()
         await self.session.refresh(lead)
         return lead
