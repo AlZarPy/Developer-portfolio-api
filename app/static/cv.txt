@@ -1,0 +1,12 @@
+Aleksandr Zaretsky
+Backend / Full-stack Developer
+
+Focus:
+- Python, FastAPI, PostgreSQL, SQLAlchemy, Alembic
+- API design, integrations, Docker, CI/CD
+- AI integrations for backend workflows
+
+Projects:
+- Sigma Profi: security platform, 198 API endpoints, 159 schemas, 30+ models
+- Ne Filkina Gramota: e-commerce backend with DaData, CDEK, YooKassa
+- EAEU Events: event management, access codes, media content

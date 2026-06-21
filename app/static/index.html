@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aleksandr Zaretsky | Backend Developer</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#top">AZ</a>
+      <nav aria-label="Primary navigation">
+        <a href="#projects">Projects</a>
+        <a href="#flow">Flow</a>
+        <a href="#contact">Contact</a>
+        <a href="/docs">Swagger</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Backend / Full-stack Developer</p>
+          <h1>Aleksandr Zaretsky</h1>
+          <p class="summary">
+            FastAPI, PostgreSQL, React, Docker, and practical AI integrations for business
+            services that need clear architecture and reliable delivery.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="https://github.com/AlZarPy" target="_blank" rel="noreferrer">GitHub</a>
+            <a class="button" href="#contact">Contact</a>
+            <a class="button" href="/cv.txt" download>CV</a>
+          </div>
+        </div>
+        <div class="hero-visual" aria-label="Backend workflow visualization">
+          <div class="terminal">
+            <div class="terminal-bar"><span></span><span></span><span></span></div>
+            <pre><code>POST /api/contact
+validation: ok
+ai.category: project_request
+db.leads: stored
+email.owner: queued
+response: 201 Created</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="section about">
+        <div>
+          <p class="section-label">About</p>
+          <h2>Backend-first engineering with product context</h2>
+        </div>
+        <p>
+          I build API-driven services, integrations, and internal platforms with attention to
+          maintainability, deployment, and real operational constraints. This site is also a live
+          backend demo: form requests are validated, classified, stored, logged, and routed through
+          an email workflow.
+        </p>
+      </section>
+
+      <section class="section tech">
+        <p class="section-label">Stack</p>
+        <div class="tech-grid">
+          <span>Python</span>
+          <span>FastAPI</span>
+          <span>PostgreSQL</span>
+          <span>SQLAlchemy</span>
+          <span>Alembic</span>
+          <span>React</span>
+          <span>Docker</span>
+          <span>AI</span>
+        </div>
+      </section>
+
+      <section class="section projects" id="projects">
+        <p class="section-label">Projects</p>
+        <div class="project-grid">
+          <article>
+            <h3>Sigma Profi</h3>
+            <p>Security platform with 198 API endpoints, 159 schemas, and 30+ models.</p>
+          </article>
+          <article>
+            <h3>Ne Filkina Gramota</h3>
+            <p>E-commerce backend with DaData, CDEK, YooKassa, and order workflows.</p>
+          </article>
+          <article>
+            <h3>EAEU Events</h3>
+            <p>Event management, access codes, media content, and participant flows.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section flow" id="flow">
+        <p class="section-label">How this project works</p>
+        <ol>
+          <li>Validation</li>
+          <li>AI Classification</li>
+          <li>Database Storage</li>
+          <li>Email Notification</li>
+          <li>API Response</li>
+        </ol>
+      </section>
+
+      <section class="section contact" id="contact">
+        <div>
+          <p class="section-label">Contact</p>
+          <h2>Send a request</h2>
+        </div>
+        <form id="contact-form" novalidate>
+          <label>
+            Name
+            <input name="name" autocomplete="name" required minlength="2" />
+          </label>
+          <label>
+            Email
+            <input name="email" type="email" autocomplete="email" required />
+          </label>
+          <label>
+            Phone
+            <input name="phone" autocomplete="tel" />
+          </label>
+          <label>
+            Message
+            <textarea name="message" required minlength="10"></textarea>
+          </label>
+          <input name="source" type="hidden" value="website" />
+          <button class="button primary" type="submit">Send message</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
