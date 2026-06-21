@@ -9,6 +9,10 @@ from app.schemas.lead import ContactRequest
 logger = logging.getLogger(__name__)
 
 
+USER_EMAIL_SIGNATURE = "С уважением,\nАлександр Зарецкий"
+USER_EMAIL_FALLBACK_REPLY = "Спасибо за обращение. Я получил сообщение и вернусь с ответом."
+
+
 class EmailService:
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
@@ -37,7 +41,7 @@ class EmailService:
             user_sent = await self._send(
                 to=str(contact.email),
                 subject="Спасибо за обращение",
-                text=analysis.reply,
+                text=self._build_user_reply(analysis.reply),
             )
 
         return owner_sent and user_sent
@@ -72,3 +76,17 @@ class EmailService:
             and self.settings.resend_api_key
             and self.settings.owner_email
         )
+
+    @staticmethod
+    def _build_user_reply(reply: str) -> str:
+        body_lines: list[str] = []
+        for line in reply.strip().splitlines():
+            normalized = line.strip().lower()
+            if normalized.startswith("с уважением"):
+                break
+            if "[ваше" in normalized or "ваше имя" in normalized:
+                continue
+            body_lines.append(line.rstrip())
+
+        body = "\n".join(body_lines).strip() or USER_EMAIL_FALLBACK_REPLY
+        return f"{body}\n\n{USER_EMAIL_SIGNATURE}"

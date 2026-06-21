@@ -1,5 +1,86 @@
 const form = document.querySelector("#contact-form");
 const statusNode = document.querySelector("#form-status");
+const apiDemo = {
+  trigger: document.querySelector("[data-api-trigger]"),
+  method: document.querySelector("[data-api-method]"),
+  endpoint: document.querySelector("[data-api-endpoint]"),
+  status: document.querySelector("[data-api-status]"),
+  time: document.querySelector("[data-api-time]"),
+  code: document.querySelector("[data-api-code]"),
+};
+const flowSteps = Array.from(document.querySelectorAll("[data-flow-step]"));
+
+const apiScenarios = [
+  {
+    method: "GET",
+    endpoint: "/api/health",
+    status: "200 OK",
+    time: "72 ms",
+    code: '{\n  "status": "ok"\n}',
+  },
+  {
+    method: "POST",
+    endpoint: "/api/contact",
+    status: "201 Created",
+    time: "184 ms",
+    code: '{\n  "success": true,\n  "category": "project_request",\n  "sentiment": "positive"\n}',
+  },
+  {
+    method: "GET",
+    endpoint: "/api/metrics",
+    status: "200 OK",
+    time: "91 ms",
+    code: '{\n  "total": 12,\n  "by_category": {\n    "job_offer": 5,\n    "project_request": 7\n  }\n}',
+  },
+];
+
+let apiScenarioIndex = 0;
+let flowStepIndex = 0;
+
+function renderApiScenario(index) {
+  const scenario = apiScenarios[index % apiScenarios.length];
+  if (!apiDemo.trigger || !apiDemo.method || !apiDemo.endpoint || !apiDemo.status || !apiDemo.time || !apiDemo.code) {
+    return;
+  }
+
+  apiDemo.trigger.disabled = true;
+  apiDemo.trigger.textContent = "Sending";
+  apiDemo.status.textContent = "pending";
+  apiDemo.time.textContent = "...";
+
+  window.setTimeout(() => {
+    apiDemo.method.textContent = scenario.method;
+    apiDemo.endpoint.textContent = scenario.endpoint;
+    apiDemo.status.textContent = scenario.status;
+    apiDemo.time.textContent = scenario.time;
+    apiDemo.code.textContent = scenario.code;
+    apiDemo.trigger.disabled = false;
+    apiDemo.trigger.textContent = "Send";
+  }, 420);
+}
+
+function activateFlowStep(index) {
+  if (!flowSteps.length) {
+    return;
+  }
+
+  flowSteps.forEach((step, stepIndex) => {
+    step.classList.toggle("is-active", stepIndex === index % flowSteps.length);
+  });
+}
+
+if (apiDemo.trigger) {
+  apiDemo.trigger.addEventListener("click", () => {
+    apiScenarioIndex = (apiScenarioIndex + 1) % apiScenarios.length;
+    renderApiScenario(apiScenarioIndex);
+  });
+}
+
+activateFlowStep(flowStepIndex);
+window.setInterval(() => {
+  flowStepIndex = (flowStepIndex + 1) % Math.max(flowSteps.length, 1);
+  activateFlowStep(flowStepIndex);
+}, 1800);
 
 const categoryLabels = {
   job_offer: "предложение о работе",

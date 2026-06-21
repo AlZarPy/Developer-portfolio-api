@@ -1,5 +1,6 @@
 import json
 import logging
+from enum import StrEnum
 
 import httpx
 
@@ -55,16 +56,41 @@ class GeminiProvider:
 
     @staticmethod
     def _parse_response(payload: dict) -> AIAnalysis:
-        text = (
-            payload.get("candidates", [{}])[0]
-            .get("content", {})
-            .get("parts", [{}])[0]
-            .get("text", "{}")
-        )
-        data = json.loads(text)
+        text = GeminiProvider._extract_response_text(payload)
+        try:
+            data = json.loads(text)
+        except json.JSONDecodeError as exc:
+            raise ValueError("Gemini returned invalid JSON") from exc
 
         return AIAnalysis(
-            category=LeadCategory(data.get("category", LeadCategory.OTHER.value)),
-            sentiment=LeadSentiment(data.get("sentiment", LeadSentiment.NEUTRAL.value)),
+            category=GeminiProvider._parse_enum(
+                LeadCategory,
+                data.get("category"),
+                LeadCategory.OTHER,
+            ),
+            sentiment=GeminiProvider._parse_enum(
+                LeadSentiment,
+                data.get("sentiment"),
+                LeadSentiment.NEUTRAL,
+            ),
             reply=str(data.get("reply") or "Спасибо за обращение."),
         )
+
+    @staticmethod
+    def _extract_response_text(payload: dict) -> str:
+        candidates = payload.get("candidates")
+        if not candidates:
+            raise ValueError("Gemini response does not contain candidates")
+
+        parts = candidates[0].get("content", {}).get("parts")
+        if not parts or not parts[0].get("text"):
+            raise ValueError("Gemini response does not contain text")
+
+        return str(parts[0]["text"])
+
+    @staticmethod
+    def _parse_enum[T: StrEnum](enum_type: type[T], value: object, default: T) -> T:
+        try:
+            return enum_type(str(value))
+        except ValueError:
+            return default

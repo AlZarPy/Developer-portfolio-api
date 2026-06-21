@@ -3,64 +3,173 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Александр Зарецкий | Backend Developer</title>
+    <title>Александр Зарецкий | Python Backend Developer</title>
+    <meta
+      name="description"
+      content="Портфолио Python Backend Developer: FastAPI, PostgreSQL, Docker, интеграции, automation и рабочее API-демо."
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
     <header class="topbar">
-      <a class="brand" href="#top">AZ</a>
+      <a class="brand" href="#top" aria-label="К началу страницы">AZ</a>
       <nav aria-label="Основная навигация">
         <a href="#projects">Проекты</a>
-        <a href="#flow">Процесс</a>
+        <a href="#api-demo">API demo</a>
+        <a href="#stack">Стек</a>
         <a href="#contact">Контакт</a>
         <a href="/docs">Swagger</a>
       </nav>
+      <div class="topbar-actions">
+        <a class="icon-link" href="https://github.com/AlZarPy" target="_blank" rel="noreferrer" aria-label="GitHub">
+          <span aria-hidden="true">GH</span>
+        </a>
+        <a class="button small primary" href="#contact">Связаться</a>
+      </div>
     </header>
 
     <main id="top">
-      <section class="hero">
+      <section class="hero section-dark" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow">Backend / Full-stack Developer</p>
-          <h1>Александр Зарецкий</h1>
+          <p class="availability"><span></span> полная занятость / удаленно / гибрид</p>
+          <h1 id="hero-title">Александр Зарецкий</h1>
+          <p class="role">Python Backend Developer</p>
           <p class="summary">
-            Python Backend / Fullstack Developer в Тбилиси. Проектирую и запускаю коммерческие
-            backend-сервисы, интеграции и automation tools на FastAPI, PostgreSQL и Docker.
+            Backend-разработчик с опытом создания коммерческих систем в сферах услуг,
+            e-commerce и управления мероприятиями. Участвую в проектах от проработки
+            требований и проектирования до реализации, запуска и сопровождения.
           </p>
+
+          <div class="proof-list" aria-label="Ключевые качества">
+            <span><strong>Требования</strong> структурирую задачи вместе с заказчиком</span>
+            <span><strong>Backend</strong> модели данных, API и бизнес-логика</span>
+            <span><strong>Процессы</strong> опыт управления командой до 30 сотрудников</span>
+          </div>
+
           <div class="hero-actions">
-            <a class="button primary" href="https://github.com/AlZarPy" target="_blank" rel="noreferrer">GitHub</a>
-            <a class="button" href="#contact">Связаться</a>
-            <a class="button" href="/aleksandr-zaretsky-cv.pdf" download>Скачать CV</a>
+            <a class="button primary" href="/aleksandr-zaretsky-cv.pdf" download>Скачать CV</a>
+            <a class="button ghost" href="https://github.com/AlZarPy" target="_blank" rel="noreferrer">GitHub</a>
+            <a class="button ghost" href="#contact">Контакт</a>
           </div>
+
+          <dl class="hero-metrics" aria-label="Ключевые факты">
+            <div>
+              <dt>3г 9м</dt>
+              <dd>опыт работы</dd>
+            </div>
+            <div>
+              <dt>198</dt>
+              <dd>API endpoints в Sigma Profi</dd>
+            </div>
+            <div>
+              <dt>159</dt>
+              <dd>schemas в API-платформе</dd>
+            </div>
+          </dl>
         </div>
-        <div class="hero-visual" aria-label="Схема обработки backend-запроса">
-          <div class="terminal">
-            <div class="terminal-bar"><span></span><span></span><span></span></div>
-            <pre><code>POST /api/contact
-validation: ok
-ai.category: project_request
-db.leads: stored
-email.owner: sent
-response: 201 Created</code></pre>
-          </div>
+
+        <div class="hero-stage" aria-label="Визуал backend-стека">
+          <img
+            class="hero-stack"
+            src="/hero-tech-stack-blended.png"
+            alt="3D-блоки технологий Python, FastAPI, PostgreSQL, React, Docker, Telegram Bot и API Integrations"
+          />
+
+          <article class="api-card" id="api-demo" aria-label="Live API demo">
+            <div class="api-card-head">
+              <div>
+                <p class="api-kicker">Live API Demo</p>
+                <h2>Запрос к портфолио API</h2>
+              </div>
+              <span class="live-pill"><span></span> live</span>
+            </div>
+
+            <div class="request-line">
+              <span class="method" data-api-method>GET</span>
+              <span class="endpoint" data-api-endpoint>/api/health</span>
+              <button class="send-button" type="button" data-api-trigger>Send</button>
+            </div>
+
+            <div class="response-line">
+              <span class="status-dot"></span>
+              <strong data-api-status>200 OK</strong>
+              <span data-api-time>72 ms</span>
+            </div>
+
+            <pre class="response-code"><code data-api-code>{
+  "status": "ok"
+}</code></pre>
+          </article>
         </div>
       </section>
 
-      <section class="section about">
-        <div>
-          <p class="section-label">О себе</p>
-          <h2>Backend-first подход с пониманием продукта</h2>
+      <section class="projects section-light" id="projects" aria-labelledby="projects-title">
+        <div class="section-heading">
+          <p class="section-label">Selected projects</p>
+          <h2 id="projects-title">Коммерческие продукты и автоматизация</h2>
+          <a href="https://github.com/AlZarPy" target="_blank" rel="noreferrer">GitHub -></a>
         </div>
-        <p>
-          Перевожу бизнес-требования в работающие продукты: архитектура, backend, админские
-          сценарии, интеграции, деплой и поддержка. Использую AI-assisted workflows для ускорения
-          разработки и анализа задач. Этот сайт одновременно работает как backend-демо: обращения
-          валидируются, классифицируются AI, сохраняются в БД, логируются и отправляются через
-          email workflow.
-        </p>
+
+        <div class="project-grid">
+          <article class="project-card">
+            <div class="project-icon shield" aria-hidden="true">S</div>
+            <div>
+              <h3>Sigma Profi</h3>
+              <p class="project-type">ALFATEAM / security platform</p>
+              <p>
+                Платформа управления охранного агентства: модели данных, API,
+                бизнес-логика, ролевая модель доступа, внутренние чаты, отчетность
+                и push-уведомления через Firebase.
+              </p>
+            </div>
+            <dl>
+              <div><dt>198</dt><dd>API endpoints</dd></div>
+              <div><dt>30+</dt><dd>ORM-моделей</dd></div>
+            </dl>
+          </article>
+
+          <article class="project-card">
+            <div class="project-icon code" aria-hidden="true">&lt;/&gt;</div>
+            <div>
+              <h3>Не Филькина Грамота</h3>
+              <p class="project-type">e-commerce / photo products</p>
+              <p>
+                Backend и административная панель сервиса: путь от загрузки
+                фотографий до оформления и оплаты заказа, API для мобильного
+                приложения и интеграции CDEK, YooKassa и DaData.
+              </p>
+            </div>
+            <dl>
+              <div><dt>CDEK</dt><dd>доставка</dd></div>
+              <div><dt>YooKassa</dt><dd>оплата</dd></div>
+            </dl>
+          </article>
+
+          <article class="project-card">
+            <div class="project-icon bolt" aria-hidden="true">A</div>
+            <div>
+              <h3>PAVEPO / MiXBS</h3>
+              <p class="project-type">automation and backend tools</p>
+              <p>
+                Backend-сервисы и утилиты автоматизации на Python: Telegram-боты,
+                интеграции со сторонними сервисами, файловые хранилища MinIO/S3,
+                Selenium/Playwright и автоматизация отчетности.
+              </p>
+            </div>
+            <dl>
+              <div><dt>Telegram</dt><dd>боты и API</dd></div>
+              <div><dt>30</dt><dd>сотрудников в команде</dd></div>
+            </dl>
+          </article>
+        </div>
       </section>
 
-      <section class="section tech">
-        <p class="section-label">Технологии в работе</p>
+      <section class="stack section-light" id="stack" aria-labelledby="stack-title">
+        <div class="section-heading compact">
+          <p class="section-label">Tech stack</p>
+          <h2 id="stack-title">Стек из резюме</h2>
+        </div>
         <div class="tech-grid">
           <span>Python</span>
           <span>FastAPI</span>
@@ -68,44 +177,49 @@ response: 201 Created</code></pre>
           <span>SQLAlchemy</span>
           <span>Alembic</span>
           <span>React</span>
+          <span>TypeScript</span>
+          <span>Ant Design</span>
           <span>Docker</span>
-          <span>AI</span>
+          <span>Linux</span>
+          <span>Git</span>
+          <span>pytest</span>
+          <span>Redis</span>
+          <span>Firebase</span>
+          <span>Telegram API</span>
+          <span>YooKassa</span>
+          <span>CDEK</span>
+          <span>DaData</span>
+          <span>Selenium</span>
+          <span>Playwright</span>
+          <span>aiogram</span>
+          <span>Telethon</span>
+          <span>AsyncIO</span>
+          <span>CI/CD</span>
         </div>
       </section>
 
-      <section class="section projects" id="projects">
-        <p class="section-label">Проекты</p>
-        <div class="project-grid">
-          <article>
-            <h3>ALFATEAM</h3>
-            <p>3 коммерческих продукта end-to-end: архитектура, backend, админки, интеграции, деплой и поддержка.</p>
-          </article>
-          <article>
-            <h3>Security Platform</h3>
-            <p>Платформа для клиентов, телохранителей, заказов, чатов и расписаний: 198 endpoints, 159 schemas, 30+ ORM models.</p>
-          </article>
-          <article>
-            <h3>Automation</h3>
-            <p>Telegram bot workflows, парсеры, Windows utilities и автоматизация отчетов с сокращением ручной работы.</p>
-          </article>
+      <section class="flow section-light" id="flow" aria-labelledby="flow-title">
+        <div class="section-heading compact">
+          <p class="section-label">Request lifecycle</p>
+          <h2 id="flow-title">Как работает форма на этом сайте</h2>
         </div>
-      </section>
-
-      <section class="section flow" id="flow">
-        <p class="section-label">Как работает проект</p>
-        <ol>
-          <li>Валидация</li>
-          <li>AI-классификация</li>
-          <li>Запись в БД</li>
-          <li>Email-уведомление</li>
-          <li>API-ответ</li>
+        <ol class="flow-grid">
+          <li data-flow-step><strong>POST /api/contact</strong><span>пользователь отправляет обращение</span></li>
+          <li data-flow-step><strong>Validation</strong><span>Pydantic проверяет данные</span></li>
+          <li data-flow-step><strong>AI classification</strong><span>Gemini или mock fallback</span></li>
+          <li data-flow-step><strong>PostgreSQL</strong><span>lead сохраняется в БД</span></li>
+          <li data-flow-step><strong>Email</strong><span>Resend уведомляет владельца</span></li>
         </ol>
       </section>
 
-      <section class="section contact" id="contact">
-        <div>
-          <p class="section-label">Контакт</p>
-          <h2>Отправить обращение</h2>
+      <section class="contact section-light" id="contact" aria-labelledby="contact-title">
+        <div class="contact-copy">
+          <p class="section-label">Contact</p>
+          <h2 id="contact-title">Обсудить задачу или вакансию</h2>
+          <p>
+            Люблю задачи, в которых нужно разобраться в предметной области,
+            структурировать требования и превратить идею в работающий продукт.
+          </p>
         </div>
         <form id="contact-form" novalidate>
           <label>
@@ -120,11 +234,7 @@ response: 201 Created</code></pre>
           </label>
           <label>
             Телефон
-            <input
-              name="phone"
-              autocomplete="tel"
-              inputmode="tel"
-            />
+            <input name="phone" autocomplete="tel" inputmode="tel" />
             <span class="field-error" data-error-for="phone"></span>
           </label>
           <label>
