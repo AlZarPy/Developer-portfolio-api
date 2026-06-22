@@ -1,5 +1,6 @@
 const form = document.querySelector("#contact-form");
 const statusNode = document.querySelector("#form-status");
+const topbar = document.querySelector(".topbar");
 const apiDemo = {
   trigger: document.querySelector("[data-api-trigger]"),
   method: document.querySelector("[data-api-method]"),
@@ -37,6 +38,14 @@ const apiScenarios = [
 let apiScenarioIndex = 0;
 let flowStepIndex = 0;
 
+function syncTopbarHeight() {
+  if (!topbar) {
+    return;
+  }
+
+  document.documentElement.style.setProperty("--topbar-height", `${topbar.offsetHeight}px`);
+}
+
 function renderApiScenario(index) {
   const scenario = apiScenarios[index % apiScenarios.length];
   if (!apiDemo.trigger || !apiDemo.method || !apiDemo.endpoint || !apiDemo.status || !apiDemo.time || !apiDemo.code) {
@@ -68,6 +77,9 @@ function activateFlowStep(index) {
     step.classList.toggle("is-active", stepIndex === index % flowSteps.length);
   });
 }
+
+syncTopbarHeight();
+window.addEventListener("resize", syncTopbarHeight);
 
 if (apiDemo.trigger) {
   apiDemo.trigger.addEventListener("click", () => {
